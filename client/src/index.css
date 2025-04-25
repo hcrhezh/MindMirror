@@ -73,6 +73,22 @@
   }
 }
 
+/* Typing indicator animation */
+.typing-indicator {
+  display: inline-block;
+  animation: typingAnimation 1.5s infinite;
+  opacity: 0.7;
+  font-size: 0.9em;
+  letter-spacing: 2px;
+  margin-left: 3px;
+}
+
+@keyframes typingAnimation {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
 .mood-emoji {
   transition: transform 0.2s;
 }

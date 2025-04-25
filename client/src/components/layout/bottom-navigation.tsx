@@ -24,7 +24,7 @@ export default function BottomNavigation() {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       setAssistantResponse(
-        "I'm here to help. What would you like to talk about today? I can help with mood analysis, thought clarification, or just provide a listening ear."
+        "I hear you! Thanks for sharing that with me. I'm all ears if you want to chat more about how you're feeling. Sometimes just talking things through can make a world of difference. Would you like to dive deeper into what you're experiencing, or should we explore some ways to help you feel better?"
       );
     } catch (error) {
       console.error('Error sending message:', error);
@@ -58,7 +58,7 @@ export default function BottomNavigation() {
           
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <AssistantMessage message={
-              "Hello! I'm Sanasa, your mental health assistant. How can I help you today?"
+              "Hey there! I'm Sanasa, your friend on this journey. How are you feeling today? I'm here to chat about whatever's on your mind."
             } />
             
             {assistantResponse && (
