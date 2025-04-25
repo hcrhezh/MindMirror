@@ -21,7 +21,8 @@ if (apiKey) {
 
 // Initialize the Google Generative AI SDK
 const genAI = new GoogleGenerativeAI(apiKey || "");
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+// Use gemini-1.5-pro model which is the latest model available
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
 // Test the API key at startup
 async function testApiKey() {

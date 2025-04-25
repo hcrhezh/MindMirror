@@ -66,18 +66,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Error analyzing mood:', error);
       
-      // Check if this is an OpenAI API error
-      if (error?.response && error.response.status) {
-        const status = error.response.status;
+      // Check if this is a Gemini API error
+      if (error?.status) {
+        const status = error.status;
         if (status === 401) {
           return res.status(401).json({ 
             error: 'api_key_invalid',
-            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+            message: 'Invalid API key provided. Please check your Gemini API key.' 
           });
         } else if (status === 429) {
           return res.status(429).json({ 
             error: 'rate_limit_exceeded',
-            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+            message: 'Gemini API rate limit exceeded. Please try again later.' 
+          });
+        } else if (status === 404) {
+          return res.status(404).json({ 
+            error: 'model_not_found',
+            message: 'The requested Gemini model was not found. Please check the model configuration.' 
           });
         }
       }
@@ -125,18 +130,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Error clarifying thoughts:', error);
       
-      // Check if this is an OpenAI API error
-      if (error?.response && error.response.status) {
-        const status = error.response.status;
+      // Check if this is a Gemini API error
+      if (error?.status) {
+        const status = error.status;
         if (status === 401) {
           return res.status(401).json({ 
             error: 'api_key_invalid',
-            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+            message: 'Invalid API key provided. Please check your Gemini API key.' 
           });
         } else if (status === 429) {
           return res.status(429).json({ 
             error: 'rate_limit_exceeded',
-            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+            message: 'Gemini API rate limit exceeded. Please try again later.' 
+          });
+        } else if (status === 404) {
+          return res.status(404).json({ 
+            error: 'model_not_found',
+            message: 'The requested Gemini model was not found. Please check the model configuration.' 
           });
         }
       }
@@ -171,18 +181,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Error analyzing relationship:', error);
       
-      // Check if this is an OpenAI API error
-      if (error?.response && error.response.status) {
-        const status = error.response.status;
+      // Check if this is a Gemini API error
+      if (error?.status) {
+        const status = error.status;
         if (status === 401) {
           return res.status(401).json({ 
             error: 'api_key_invalid',
-            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+            message: 'Invalid API key provided. Please check your Gemini API key.' 
           });
         } else if (status === 429) {
           return res.status(429).json({ 
             error: 'rate_limit_exceeded',
-            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+            message: 'Gemini API rate limit exceeded. Please try again later.' 
+          });
+        } else if (status === 404) {
+          return res.status(404).json({ 
+            error: 'model_not_found',
+            message: 'The requested Gemini model was not found. Please check the model configuration.' 
           });
         }
       }
@@ -229,18 +244,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Error generating daily tips:', error);
       
-      // Check if this is an OpenAI API error
-      if (error?.response && error.response.status) {
-        const status = error.response.status;
+      // Check if this is a Gemini API error
+      if (error?.status) {
+        const status = error.status;
         if (status === 401) {
           return res.status(401).json({ 
             error: 'api_key_invalid',
-            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+            message: 'Invalid API key provided. Please check your Gemini API key.' 
           });
         } else if (status === 429) {
           return res.status(429).json({ 
             error: 'rate_limit_exceeded',
-            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+            message: 'Gemini API rate limit exceeded. Please try again later.' 
+          });
+        } else if (status === 404) {
+          return res.status(404).json({ 
+            error: 'model_not_found',
+            message: 'The requested Gemini model was not found. Please check the model configuration.' 
           });
         }
       }
@@ -275,18 +295,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Error analyzing social media:', error);
       
-      // Check if this is an OpenAI API error
-      if (error?.response && error.response.status) {
-        const status = error.response.status;
+      // Check if this is a Gemini API error
+      if (error?.status) {
+        const status = error.status;
         if (status === 401) {
           return res.status(401).json({ 
             error: 'api_key_invalid',
-            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+            message: 'Invalid API key provided. Please check your Gemini API key.' 
           });
         } else if (status === 429) {
           return res.status(429).json({ 
             error: 'rate_limit_exceeded',
-            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+            message: 'Gemini API rate limit exceeded. Please try again later.' 
+          });
+        } else if (status === 404) {
+          return res.status(404).json({ 
+            error: 'model_not_found',
+            message: 'The requested Gemini model was not found. Please check the model configuration.' 
           });
         }
       }
