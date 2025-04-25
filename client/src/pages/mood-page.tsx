@@ -35,27 +35,41 @@ export default function MoodPage() {
   const analyzeMoodMutation = useMutation({
     mutationFn: async () => {
       setApiError(null); // Reset any previous errors
-      const response = await apiRequest('POST', '/api/analyze/mood', {
-        text: journalEntry,
-        selectedMood: selectedMood,
-        selectedMoodScore: selectedMoodScore,
-        language: currentLanguage
-      });
-      
-      const data = await response.json();
-      
-      // Check if the response contains an error
-      if (!response.ok) {
-        if (data.error === 'api_key_missing' || data.error === 'api_key_invalid') {
-          throw new Error("OpenAI API key is missing or invalid. Please check your API key configuration.");
-        } else if (data.error === 'rate_limit_exceeded') {
-          throw new Error("API rate limit exceeded. Please try again later.");
-        } else {
-          throw new Error(data.message || "An error occurred while analyzing your mood.");
+      try {
+        console.log("Sending request to analyze mood with data:", {
+          text: journalEntry,
+          selectedMood,
+          selectedMoodScore,
+          language: currentLanguage
+        });
+        
+        const response = await apiRequest('POST', '/api/analyze/mood', {
+          text: journalEntry,
+          selectedMood: selectedMood,
+          selectedMoodScore: selectedMoodScore,
+          language: currentLanguage
+        });
+        
+        console.log("API response status:", response.status);
+        const data = await response.json();
+        console.log("API response data:", data);
+        
+        // Check if the response contains an error
+        if (!response.ok) {
+          if (data.error === 'api_key_missing' || data.error === 'api_key_invalid') {
+            throw new Error("OpenAI API key is missing or invalid. Please check your API key configuration.");
+          } else if (data.error === 'rate_limit_exceeded') {
+            throw new Error("API rate limit exceeded. Please try again later.");
+          } else {
+            throw new Error(data.message || "An error occurred while analyzing your mood.");
+          }
         }
+        
+        return data;
+      } catch (error) {
+        console.error("Error in API request:", error);
+        throw error;
       }
-      
-      return data;
     },
     onSuccess: (data: MoodAnalysis) => {
       // Save mood entry to history

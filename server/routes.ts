@@ -97,6 +97,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Text is required' });
       }
       
+      // Check for API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('Missing OPENAI_API_KEY environment variable');
+        return res.status(500).json({ 
+          error: 'api_key_missing',
+          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+        });
+      }
+      
       const clarifiedThoughts = await clarifyThoughts(text, language);
       
       // If user is logged in, save journal entry
@@ -114,7 +123,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json(clarifiedThoughts);
     } catch (error: any) {
       console.error('Error clarifying thoughts:', error);
-      return res.status(500).json({ message: 'Failed to clarify thoughts' });
+      
+      // Check if this is an OpenAI API error
+      if (error?.response && error.response.status) {
+        const status = error.response.status;
+        if (status === 401) {
+          return res.status(401).json({ 
+            error: 'api_key_invalid',
+            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+          });
+        } else if (status === 429) {
+          return res.status(429).json({ 
+            error: 'rate_limit_exceeded',
+            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+          });
+        }
+      }
+      
+      return res.status(500).json({ 
+        error: 'api_error',
+        message: 'Failed to clarify thoughts. Please try again later.' 
+      });
     }
   });
   
@@ -127,11 +156,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Text is required' });
       }
       
+      // Check for API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('Missing OPENAI_API_KEY environment variable');
+        return res.status(500).json({ 
+          error: 'api_key_missing',
+          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+        });
+      }
+      
       const analysis = await analyzeRelationship(text, language);
       return res.json(analysis);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error analyzing relationship:', error);
-      return res.status(500).json({ message: 'Failed to analyze relationship' });
+      
+      // Check if this is an OpenAI API error
+      if (error?.response && error.response.status) {
+        const status = error.response.status;
+        if (status === 401) {
+          return res.status(401).json({ 
+            error: 'api_key_invalid',
+            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+          });
+        } else if (status === 429) {
+          return res.status(429).json({ 
+            error: 'rate_limit_exceeded',
+            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+          });
+        }
+      }
+      
+      return res.status(500).json({ 
+        error: 'api_error',
+        message: 'Failed to analyze relationship. Please try again later.' 
+      });
     }
   });
   
@@ -139,6 +197,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/generate/daily-tips', async (req, res) => {
     try {
       const { mood, moodScore, language } = req.body;
+      
+      // Check for API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('Missing OPENAI_API_KEY environment variable');
+        return res.status(500).json({ 
+          error: 'api_key_missing',
+          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+        });
+      }
       
       const tips = await generateDailyTips(mood, moodScore, language);
       
@@ -158,9 +225,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       return res.json(tips);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating daily tips:', error);
-      return res.status(500).json({ message: 'Failed to generate daily tips' });
+      
+      // Check if this is an OpenAI API error
+      if (error?.response && error.response.status) {
+        const status = error.response.status;
+        if (status === 401) {
+          return res.status(401).json({ 
+            error: 'api_key_invalid',
+            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+          });
+        } else if (status === 429) {
+          return res.status(429).json({ 
+            error: 'rate_limit_exceeded',
+            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+          });
+        }
+      }
+      
+      return res.status(500).json({ 
+        error: 'api_error',
+        message: 'Failed to generate daily tips. Please try again later.' 
+      });
     }
   });
   
