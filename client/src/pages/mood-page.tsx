@@ -57,9 +57,11 @@ export default function MoodPage() {
         // Check if the response contains an error
         if (!response.ok) {
           if (data.error === 'api_key_missing' || data.error === 'api_key_invalid') {
-            throw new Error("OpenAI API key is missing or invalid. Please check your API key configuration.");
+            throw new Error("Gemini API key is missing or invalid. Please check your API key configuration.");
           } else if (data.error === 'rate_limit_exceeded') {
-            throw new Error("The OpenAI API quota has been exceeded. Please check your OpenAI account billing settings or use a different API key with available quota.");
+            throw new Error("The Gemini API quota has been exceeded. Please try again later or contact support.");
+          } else if (data.error === 'model_not_found') {
+            throw new Error("The requested Gemini model was not found. Please check your app configuration.");
           } else {
             throw new Error(data.message || "An error occurred while analyzing your mood.");
           }

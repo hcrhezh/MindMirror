@@ -1,10 +1,10 @@
 import { MoodAnalysis, RelationshipAnalysis, Emotion } from "@/types";
 
-// The newest OpenAI model is "gpt-4o" which was released May 13, 2024.
-// do not change this unless explicitly requested by the user
+// IMPORTANT: This file has been updated to use Google's Gemini API instead of OpenAI
+// We're keeping the same interface for compatibility with existing code
+// The actual implementation now uses Gemini on the backend
 
-// Mock function to analyze mood using OpenAI
-// In a real implementation, this would make an API call to the backend
+// Function to analyze mood using Gemini (via backend API)
 export async function analyzeMood(text: string, language: string): Promise<MoodAnalysis> {
   try {
     const response = await fetch('/api/analyze/mood', {
@@ -26,7 +26,7 @@ export async function analyzeMood(text: string, language: string): Promise<MoodA
   }
 }
 
-// Function to clarify thoughts
+// Function to clarify thoughts using Gemini (via backend API)
 export async function clarifyThoughts(text: string, language: string): Promise<{
   clarifiedThoughts: string;
   actionSteps: string[];
@@ -51,7 +51,7 @@ export async function clarifyThoughts(text: string, language: string): Promise<{
   }
 }
 
-// Function to analyze relationships
+// Function to analyze relationships using Gemini (via backend API)
 export async function analyzeRelationship(text: string, language: string): Promise<RelationshipAnalysis> {
   try {
     const response = await fetch('/api/analyze/relationship', {
