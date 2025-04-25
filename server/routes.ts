@@ -1,7 +1,8 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { analyzeMood, clarifyThoughts, analyzeRelationship, generateDailyTips, analyzeSocialMedia } from "./lib/openai";
+// Import from Gemini instead of OpenAI
+import { analyzeMood, clarifyThoughts, analyzeRelationship, generateDailyTips, analyzeSocialMedia } from "./lib/gemini";
 import { insertJournalEntrySchema, insertMoodHistorySchema, insertDailyTipSchema } from "../shared/schema";
 import { z } from "zod";
 
@@ -26,11 +27,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Check for API key
-      if (!process.env.OPENAI_API_KEY) {
-        console.error('Missing OPENAI_API_KEY environment variable');
+      if (!process.env.GEMINI_API_KEY) {
+        console.error('Missing GEMINI_API_KEY environment variable');
         return res.status(500).json({ 
           error: 'api_key_missing',
-          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+          message: 'The Gemini API key is missing. Please provide a valid API key.' 
         });
       }
       
@@ -98,11 +99,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Check for API key
-      if (!process.env.OPENAI_API_KEY) {
-        console.error('Missing OPENAI_API_KEY environment variable');
+      if (!process.env.GEMINI_API_KEY) {
+        console.error('Missing GEMINI_API_KEY environment variable');
         return res.status(500).json({ 
           error: 'api_key_missing',
-          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+          message: 'The Gemini API key is missing. Please provide a valid API key.' 
         });
       }
       
@@ -157,11 +158,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Check for API key
-      if (!process.env.OPENAI_API_KEY) {
-        console.error('Missing OPENAI_API_KEY environment variable');
+      if (!process.env.GEMINI_API_KEY) {
+        console.error('Missing GEMINI_API_KEY environment variable');
         return res.status(500).json({ 
           error: 'api_key_missing',
-          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+          message: 'The Gemini API key is missing. Please provide a valid API key.' 
         });
       }
       
@@ -199,11 +200,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { mood, moodScore, language } = req.body;
       
       // Check for API key
-      if (!process.env.OPENAI_API_KEY) {
-        console.error('Missing OPENAI_API_KEY environment variable');
+      if (!process.env.GEMINI_API_KEY) {
+        console.error('Missing GEMINI_API_KEY environment variable');
         return res.status(500).json({ 
           error: 'api_key_missing',
-          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+          message: 'The Gemini API key is missing. Please provide a valid API key.' 
         });
       }
       
@@ -261,11 +262,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Check for API key
-      if (!process.env.OPENAI_API_KEY) {
-        console.error('Missing OPENAI_API_KEY environment variable');
+      if (!process.env.GEMINI_API_KEY) {
+        console.error('Missing GEMINI_API_KEY environment variable');
         return res.status(500).json({ 
           error: 'api_key_missing',
-          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+          message: 'The Gemini API key is missing. Please provide a valid API key.' 
         });
       }
       
