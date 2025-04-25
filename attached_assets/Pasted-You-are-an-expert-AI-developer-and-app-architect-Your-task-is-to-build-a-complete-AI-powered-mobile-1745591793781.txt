@@ -1,0 +1,66 @@
+You are an expert AI developer and app architect. Your task is to build a complete AI-powered mobile mental health and thought assistant app named “MindMirror”.
+
+This app should include:
+
+Main Concept:
+- An AI assistant that analyzes the user's emotions, thoughts, and mood in real time and provides calming feedback, relationship insights, and daily self-care suggestions.
+- Fully supports multi-language input and output (Sinhala, English, Tamil, Hindi, Spanish, and Arabic).
+
+Key Features:
+1. AI Mood & Emotion Detector:
+   - Detect the user's current mood from free text input.
+   - Work across supported languages using AI translation and emotion analysis.
+   - Provide a visual mood scale with emojis/colors and a brief summary of the analysis.
+
+2. Thought Clarifier:
+   - Convert unclear, anxious, or overthinking thoughts into clear action steps.
+   - Include real-time journaling and summary generation.
+   - Optional speech-to-text support.
+
+3. AI Relationship Analyzer:
+   - Detect compatibility and communication quality based on chat-style input.
+   - Offer tips for better interaction or deeper understanding in any type of relationship.
+
+4. Daily AI Life Coach:
+   - Generate personalized daily affirmations, meditation scripts, and self-care tips.
+   - Adjust suggestions based on the emotional history of the user.
+
+5. Social Mirror Mode:
+   - Optional feature to analyze user's social media bios or captions (provided by copy-paste).
+   - Tell users what their online presence says about them emotionally and socially.
+
+6. Offline Mode:
+   - Journal and view last 3 days of AI tips without an internet connection.
+   - Save data locally and sync later with Firebase/Supabase.
+
+7. Multi-Language Support:
+   - Accept user input and provide responses in the user’s selected language (Sinhala, English, Tamil, Hindi, Spanish, Arabic).
+   - Auto-detect language or allow manual switch.
+   - Use OpenAI or Claude AI for multilingual support with custom system prompts.
+
+AI Assistant Character:
+- Friendly and peaceful AI persona named “Sanasa” (for Sinhala mode) or “CalmMind” (global).
+- Uses empathetic, soothing language.
+- Animates subtly when responding.
+
+Design Requirements:
+- Mobile-first UI/UX.
+- Dark mode primary with soft gradients and rounded elements.
+- Simple onboarding flow.
+- Animated emoji-based mood selector.
+- Clean typography (inter or poppins font family).
+- Include visual graphs for mood tracking over time.
+
+Backend:
+- Use Firebase or Supabase for authentication, journaling, mood tracking, language preference, and backup.
+- Organize data by: userId, date, emotionLabel, emotionScore, journalEntry, language.
+
+Generate:
+- Full app structure (frontend + backend code if possible).
+- Screens/wireframes for all main features.
+- Sample AI prompts used internally for:
+   - Mood analysis
+   - Relationship insights
+   - Clarifying thoughts
+   - Generating personalized tips in multiple languages.
+- Database schema to support the above features.
