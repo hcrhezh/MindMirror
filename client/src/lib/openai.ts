@@ -73,7 +73,7 @@ export async function analyzeRelationship(text: string, language: string): Promi
   }
 }
 
-// Function to generate daily tips
+// Function to generate daily tips using Gemini (via backend API)
 export async function generateDailyTips(mood: string, language: string): Promise<{
   affirmation: string;
   meditation: string;
@@ -99,7 +99,7 @@ export async function generateDailyTips(mood: string, language: string): Promise
   }
 }
 
-// Function to analyze social media content
+// Function to analyze social media content using Gemini (via backend API)
 export async function analyzeSocialMedia(text: string, language: string): Promise<{
   emotionalTone: string;
   socialImpression: string;
