@@ -23,6 +23,7 @@ export default function MoodPage() {
   const [journalEntry, setJournalEntry] = useState('');
   const [moodHistory, setMoodHistory] = useState<MoodHistoryEntry[]>([]);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   
   // Get mood history from storage
   useEffect(() => {
@@ -33,13 +34,28 @@ export default function MoodPage() {
   // Analyze mood mutation
   const analyzeMoodMutation = useMutation({
     mutationFn: async () => {
+      setApiError(null); // Reset any previous errors
       const response = await apiRequest('POST', '/api/analyze/mood', {
         text: journalEntry,
         selectedMood: selectedMood,
         selectedMoodScore: selectedMoodScore,
         language: currentLanguage
       });
-      return response.json();
+      
+      const data = await response.json();
+      
+      // Check if the response contains an error
+      if (!response.ok) {
+        if (data.error === 'api_key_missing' || data.error === 'api_key_invalid') {
+          throw new Error("OpenAI API key is missing or invalid. Please check your API key configuration.");
+        } else if (data.error === 'rate_limit_exceeded') {
+          throw new Error("API rate limit exceeded. Please try again later.");
+        } else {
+          throw new Error(data.message || "An error occurred while analyzing your mood.");
+        }
+      }
+      
+      return data;
     },
     onSuccess: (data: MoodAnalysis) => {
       // Save mood entry to history
@@ -71,6 +87,10 @@ export default function MoodPage() {
       
       // Invalidate queries
       queryClient.invalidateQueries({ queryKey: ['/api/mood-history'] });
+    },
+    onError: (error: Error) => {
+      console.error("Mood analysis error:", error);
+      setApiError(error.message);
     }
   });
 
@@ -119,6 +139,15 @@ export default function MoodPage() {
               className="w-full bg-dark-700 text-gray-100 rounded-lg p-3 h-32 focus:outline-none focus:ring-1 focus:ring-primary-400 placeholder-gray-500"
               placeholder={t('journalPlaceholder')}
             />
+            
+            {apiError && (
+              <div className="mt-2 p-3 bg-red-900/50 border border-red-800 text-red-200 rounded-lg text-sm mb-2">
+                <div className="flex items-start space-x-2">
+                  <span className="material-icons text-red-400 mt-0.5 text-sm">error</span>
+                  <p>{apiError}</p>
+                </div>
+              </div>
+            )}
             
             <Button 
               className="w-full mt-3 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 transition text-white font-medium"

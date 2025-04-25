@@ -15,6 +15,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Either text or mood selection is required' });
       }
       
+      // Check for API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('Missing OPENAI_API_KEY environment variable');
+        return res.status(500).json({ 
+          error: 'api_key_missing',
+          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+        });
+      }
+      
       const analysis = await analyzeMood(text, selectedMood, selectedMoodScore, language);
       
       // If user is logged in, save journal entry and mood
@@ -45,7 +54,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json(analysis);
     } catch (error) {
       console.error('Error analyzing mood:', error);
-      return res.status(500).json({ message: 'Failed to analyze mood' });
+      
+      // Check if this is an OpenAI API error
+      if (error.response && error.response.status) {
+        const status = error.response.status;
+        if (status === 401) {
+          return res.status(401).json({ 
+            error: 'api_key_invalid',
+            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+          });
+        } else if (status === 429) {
+          return res.status(429).json({ 
+            error: 'rate_limit_exceeded',
+            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+          });
+        }
+      }
+      
+      return res.status(500).json({ 
+        error: 'api_error',
+        message: 'Failed to analyze mood. Please try again later.' 
+      });
     }
   });
   

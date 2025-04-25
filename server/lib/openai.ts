@@ -1,10 +1,22 @@
 import OpenAI from "openai";
-import { Mood, MoodAnalysis, RelationshipAnalysis, Emotion } from "@shared/schema";
+// Import these types from client-side types as they're not in the schema
+import type { 
+  Mood, 
+  MoodAnalysis, 
+  RelationshipAnalysis, 
+  Emotion 
+} from "../../client/src/types";
 
 // The newest OpenAI model is "gpt-4o" which was released May 13, 2024. 
 // Do not change this unless explicitly requested by the user
+const apiKey = process.env.OPENAI_API_KEY;
+
+if (!apiKey) {
+  console.error("OPENAI_API_KEY environment variable not set. API calls will fail.");
+}
+
 const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || "default_key"
+  apiKey: apiKey || ""  // OpenAI client will throw a proper error if key is missing
 });
 
 /**
