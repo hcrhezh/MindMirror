@@ -25,6 +25,35 @@ const openai = new OpenAI({
   apiKey: apiKey || ""  // OpenAI client will throw a proper error if key is missing
 });
 
+// Test the API key at startup
+async function testApiKey() {
+  if (!apiKey) {
+    console.error("No API key to test - skipping test");
+    return;
+  }
+  
+  try {
+    console.log("Testing OpenAI API key...");
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{ role: "user", content: "Hello" }],
+      max_tokens: 5
+    });
+    
+    console.log("✅ OpenAI API key is valid and working properly!");
+  } catch (error: any) {
+    console.error("❌ OpenAI API key test failed:", error.message);
+    if (error.response) {
+      console.error("Status:", error.response.status);
+      console.error("Error type:", error.response.data?.error?.type);
+      console.error("Error message:", error.response.data?.error?.message);
+    }
+  }
+}
+
+// Run the test
+testApiKey();
+
 /**
  * Analyzes the user's mood from text input and/or selected mood
  */

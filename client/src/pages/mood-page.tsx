@@ -59,7 +59,7 @@ export default function MoodPage() {
           if (data.error === 'api_key_missing' || data.error === 'api_key_invalid') {
             throw new Error("OpenAI API key is missing or invalid. Please check your API key configuration.");
           } else if (data.error === 'rate_limit_exceeded') {
-            throw new Error("API rate limit exceeded. Please try again later.");
+            throw new Error("The OpenAI API quota has been exceeded. Please check your OpenAI account billing settings or use a different API key with available quota.");
           } else {
             throw new Error(data.message || "An error occurred while analyzing your mood.");
           }

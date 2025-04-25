@@ -260,11 +260,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Text is required' });
       }
       
+      // Check for API key
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('Missing OPENAI_API_KEY environment variable');
+        return res.status(500).json({ 
+          error: 'api_key_missing',
+          message: 'The OpenAI API key is missing. Please provide a valid API key.' 
+        });
+      }
+      
       const analysis = await analyzeSocialMedia(text, language);
       return res.json(analysis);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error analyzing social media:', error);
-      return res.status(500).json({ message: 'Failed to analyze social media' });
+      
+      // Check if this is an OpenAI API error
+      if (error?.response && error.response.status) {
+        const status = error.response.status;
+        if (status === 401) {
+          return res.status(401).json({ 
+            error: 'api_key_invalid',
+            message: 'Invalid API key provided. Please check your OpenAI API key.' 
+          });
+        } else if (status === 429) {
+          return res.status(429).json({ 
+            error: 'rate_limit_exceeded',
+            message: 'OpenAI API rate limit exceeded. Please try again later.' 
+          });
+        }
+      }
+      
+      return res.status(500).json({ 
+        error: 'api_error',
+        message: 'Failed to analyze social media content. Please try again later.' 
+      });
     }
   });
   
