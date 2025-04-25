@@ -1,9 +1,19 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { analyzeMood, clarifyThoughts, analyzeRelationship, generateDailyTips, analyzeSocialMedia } from "./lib/openai";
 import { insertJournalEntrySchema, insertMoodHistorySchema, insertDailyTipSchema } from "../shared/schema";
 import { z } from "zod";
+
+// Extend Express Request type to include session
+declare module 'express-serve-static-core' {
+  interface Request {
+    session?: {
+      userId?: number;
+      [key: string]: any;
+    }
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mood analysis endpoint
@@ -52,11 +62,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       return res.json(analysis);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error analyzing mood:', error);
       
       // Check if this is an OpenAI API error
-      if (error.response && error.response.status) {
+      if (error?.response && error.response.status) {
         const status = error.response.status;
         if (status === 401) {
           return res.status(401).json({ 
@@ -102,7 +112,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       return res.json(clarifiedThoughts);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error clarifying thoughts:', error);
       return res.status(500).json({ message: 'Failed to clarify thoughts' });
     }
