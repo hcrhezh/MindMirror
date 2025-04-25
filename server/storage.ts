@@ -1,4 +1,7 @@
 import { User, InsertUser, JournalEntry, InsertJournalEntry, MoodHistory, InsertMoodHistory, DailyTip, InsertDailyTip } from "@shared/schema";
+import { db } from "./db";
+import { users, journalEntries, moodHistory, dailyTips } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -23,120 +26,69 @@ export interface IStorage {
   createDailyTip(tip: InsertDailyTip): Promise<DailyTip>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private journalEntries: Map<number, JournalEntry>;
-  private moodHistories: Map<number, MoodHistory>;
-  private dailyTips: Map<number, DailyTip>;
-  
-  private userIdCounter: number;
-  private journalIdCounter: number;
-  private moodHistoryIdCounter: number;
-  private dailyTipIdCounter: number;
-
-  constructor() {
-    this.users = new Map();
-    this.journalEntries = new Map();
-    this.moodHistories = new Map();
-    this.dailyTips = new Map();
-    
-    this.userIdCounter = 1;
-    this.journalIdCounter = 1;
-    this.moodHistoryIdCounter = 1;
-    this.dailyTipIdCounter = 1;
-  }
-
+// Database Storage implementation
+export class DatabaseStorage implements IStorage {
   // User operations
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userIdCounter++;
-    const now = new Date();
-    const user: User = { 
-      ...insertUser, 
-      id, 
-      createdAt: now 
-    };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
   
   // Journal entry operations
   async getJournalEntry(id: number): Promise<JournalEntry | undefined> {
-    return this.journalEntries.get(id);
+    const [entry] = await db.select().from(journalEntries).where(eq(journalEntries.id, id));
+    return entry;
   }
   
   async getJournalEntriesByUserId(userId: number): Promise<JournalEntry[]> {
-    return Array.from(this.journalEntries.values()).filter(
-      (entry) => entry.userId === userId
-    );
+    return db.select().from(journalEntries).where(eq(journalEntries.userId, userId));
   }
   
   async createJournalEntry(insertEntry: InsertJournalEntry): Promise<JournalEntry> {
-    const id = this.journalIdCounter++;
-    const now = new Date();
-    const entry: JournalEntry = {
-      ...insertEntry,
-      id,
-      createdAt: now
-    };
-    this.journalEntries.set(id, entry);
+    const [entry] = await db.insert(journalEntries).values(insertEntry).returning();
     return entry;
   }
   
   // Mood history operations
   async getMoodHistory(id: number): Promise<MoodHistory | undefined> {
-    return this.moodHistories.get(id);
+    const [history] = await db.select().from(moodHistory).where(eq(moodHistory.id, id));
+    return history;
   }
   
   async getMoodHistoryByUserId(userId: number): Promise<MoodHistory[]> {
-    return Array.from(this.moodHistories.values()).filter(
-      (history) => history.userId === userId
-    );
+    return db.select().from(moodHistory).where(eq(moodHistory.userId, userId));
   }
   
   async createMoodHistory(insertHistory: InsertMoodHistory): Promise<MoodHistory> {
-    const id = this.moodHistoryIdCounter++;
-    const now = new Date();
-    const history: MoodHistory = {
-      ...insertHistory,
-      id,
-      createdAt: now
-    };
-    this.moodHistories.set(id, history);
+    const [history] = await db.insert(moodHistory).values(insertHistory).returning();
     return history;
   }
   
   // Daily tips operations
   async getDailyTip(id: number): Promise<DailyTip | undefined> {
-    return this.dailyTips.get(id);
+    const [tip] = await db.select().from(dailyTips).where(eq(dailyTips.id, id));
+    return tip;
   }
   
   async getDailyTipsByUserId(userId: number): Promise<DailyTip[]> {
-    return Array.from(this.dailyTips.values()).filter(
-      (tip) => tip.userId === userId
-    );
+    return db.select().from(dailyTips).where(eq(dailyTips.userId, userId));
   }
   
   async createDailyTip(insertTip: InsertDailyTip): Promise<DailyTip> {
-    const id = this.dailyTipIdCounter++;
-    const now = new Date();
-    const tip: DailyTip = {
-      ...insertTip,
-      id,
-      createdAt: now
-    };
-    this.dailyTips.set(id, tip);
+    const [tip] = await db.insert(dailyTips).values(insertTip).returning();
     return tip;
   }
 }
 
-export const storage = new MemStorage();
+// Use database storage instead of memory storage
+export const storage = new DatabaseStorage();
