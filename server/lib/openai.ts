@@ -11,7 +11,13 @@ import type {
 // Do not change this unless explicitly requested by the user
 const apiKey = process.env.OPENAI_API_KEY;
 
-if (!apiKey) {
+// Enhanced debugging for API key issues
+console.log("OpenAI API Key check: ", apiKey ? "API key is set" : "API key is NOT set");
+if (apiKey) {
+  // Just show a partially masked version of the key for debugging
+  const maskedKey = apiKey.substring(0, 4) + "..." + apiKey.substring(apiKey.length - 4);
+  console.log("API Key format (masked):", maskedKey);
+} else {
   console.error("OPENAI_API_KEY environment variable not set. API calls will fail.");
 }
 
