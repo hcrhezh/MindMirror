@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 interface AssistantMessageProps {
   message: string;
@@ -6,6 +7,40 @@ interface AssistantMessageProps {
 }
 
 export default function AssistantMessage({ message, emotions }: AssistantMessageProps) {
+  // Simulate typing effect for more human-like conversation
+  const [displayedMessage, setDisplayedMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    // Reset displayed message when a new message comes in
+    setDisplayedMessage("");
+    setIsTyping(true);
+    
+    // Calculate a realistic typing speed (faster for short messages, slower for long ones)
+    const typingSpeed = Math.max(20, Math.min(70, 200 - message.length / 5));
+    
+    // Add a small random delay before starting to type (makes it feel more human)
+    const startDelay = Math.random() * 300 + 200;
+    
+    const timeout = setTimeout(() => {
+      let currentIndex = 0;
+      
+      const typingInterval = setInterval(() => {
+        if (currentIndex < message.length) {
+          setDisplayedMessage(prev => prev + message[currentIndex]);
+          currentIndex++;
+        } else {
+          clearInterval(typingInterval);
+          setIsTyping(false);
+        }
+      }, typingSpeed);
+      
+      return () => clearInterval(typingInterval);
+    }, startDelay);
+    
+    return () => clearTimeout(timeout);
+  }, [message]);
+
   return (
     <div className="flex items-start space-x-3">
       <motion.div 
@@ -25,8 +60,11 @@ export default function AssistantMessage({ message, emotions }: AssistantMessage
         transition={{ duration: 0.3 }}
       >
         <p className="text-sm font-medium text-primary-200 mb-1">Sanasa</p>
-        <p className="text-gray-300">{message}</p>
-        {emotions && (
+        <p className="text-gray-300">
+          {displayedMessage}
+          {isTyping && <span className="typing-indicator">•••</span>}
+        </p>
+        {emotions && !isTyping && (
           <p className="text-sm mt-2 text-secondary-400">{emotions}</p>
         )}
       </motion.div>
