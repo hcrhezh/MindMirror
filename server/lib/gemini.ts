@@ -222,11 +222,11 @@ export async function clarifyThoughts(
   } catch (error) {
     console.error("Error clarifying thoughts with Gemini:", error);
     return {
-      clarifiedThoughts: "I understand you're experiencing some complex thoughts. Let's break them down together.",
+      clarifiedThoughts: "I hear you're dealing with a lot right now. Sometimes our thoughts can feel overwhelming, but we can work through this together. What if we take a moment to untangle what's on your mind?",
       actionSteps: [
-        "Take a moment to breathe and gather your thoughts",
-        "Write down specifically what's bothering you",
-        "Consider what small step you can take today"
+        "Maybe try taking a few deep breaths first - it sounds simple, but it really helps me when things feel chaotic",
+        "Jotting down your thoughts on paper can make them feel less overwhelming - like offloading them from your mind",
+        "What's one tiny thing you could do today that might make you feel a bit better? Even something small counts"
       ]
     };
   }
@@ -307,12 +307,20 @@ export async function analyzeRelationship(
     return {
       compatibilityScore: 50,
       communicationQuality: 50,
-      strengths: ["Understanding of each other's perspectives", "Shared values and interests", "Mutual respect"],
-      areasToImprove: ["Communication during disagreements", "Active listening", "Expression of needs"],
+      strengths: [
+        "I see you both really try to understand where the other is coming from, which is so important", 
+        "It sounds like you share some important values that keep you connected, even during tough times", 
+        "There seems to be a foundation of respect between you, which is something to cherish"
+      ],
+      areasToImprove: [
+        "Maybe check in about how you're communicating when things get heated? Those moments can be tough for anyone", 
+        "I wonder if both of you feel fully heard when sharing important feelings? That's something many couples work on", 
+        "It might help to talk more about what each of you needs - sometimes we assume the other person already knows"
+      ],
       tips: [
-        "Practice active listening by repeating back what you heard",
-        "Schedule regular check-ins about your relationship",
-        "Express appreciation for specific things the other person does"
+        "Next time they share something important, try just reflecting back what you heard before responding - it's amazing how this tiny change can make people feel so much more understood",
+        "What about setting aside a little time each week just to check in with each other? Nothing fancy, just a 'how are we doing?' chat over coffee",
+        "Try noticing one specific thing you appreciate about them each day and actually telling them - those little moments of recognition can be so meaningful"
       ]
     };
   }
@@ -392,12 +400,12 @@ export async function generateDailyTips(
   } catch (error) {
     console.error("Error generating daily tips with Gemini:", error);
     return {
-      affirmation: "I embrace each day with an open heart and mind, allowing myself to grow through both challenges and joys.",
-      meditation: "Find a comfortable position and close your eyes. Take a deep breath in through your nose, filling your lungs completely, and then exhale slowly through your mouth. Feel the tension leaving your body with each exhale.\n\nFocus on the present moment, acknowledging your thoughts without judgment. With each breath, imagine a peaceful energy flowing through your body, bringing calm and clarity to your mind.",
+      affirmation: "Hey, just remember - you're doing the best you can with what you've got right now, and that's actually pretty amazing. Tomorrow brings new possibilities.",
+      meditation: "Let's take a moment together, okay? Find somewhere comfy to sit or lie down - whatever feels good for your body right now.\n\nTake a slow, deep breath in - the kind that makes your belly rise, not just your chest. And then let it out like you're sighing after a long day. Feel that little release? That's your body already thanking you. Let's do a few more breaths like that, just focusing on how the air feels coming in and going out. Nothing fancy, just you connecting with your breath.",
       selfCare: [
-        "Take a 10-minute walk outside, focusing on the sensations around you",
-        "Write down three things you're grateful for today",
-        "Drink a glass of water and enjoy a nutritious snack mindfully"
+        "Maybe brew your favorite tea or coffee and just sit with it for a few minutes? Sometimes those little rituals can be so grounding",
+        "How about texting someone who always makes you smile? Just a quick hello can do wonders for your mood",
+        "Try stepping outside for just 5 minutes - even just standing in your doorway and feeling the fresh air on your face can shift your energy a bit"
       ]
     };
   }
@@ -476,12 +484,12 @@ export async function analyzeSocialMedia(
   } catch (error) {
     console.error("Error analyzing social media with Gemini:", error);
     return {
-      emotionalTone: "Neutral with slight positive undertones",
-      socialImpression: "Readers are likely to perceive you as thoughtful and genuine.",
+      emotionalTone: "Your post has this really nice, authentic vibe to it - not trying too hard, just genuine with a hint of positivity",
+      socialImpression: "People scrolling through their feed will probably pause on this because it feels real and thoughtful - the kind of content that stands out from all the perfectly polished posts",
       suggestions: [
-        "Consider adding more personal warmth to create deeper connections",
-        "Try incorporating a thoughtful question to engage your audience",
-        "Adding a specific detail about your experience can make the content more relatable"
+        "What if you add a little personal story? Even just a line like 'This reminded me of when...' can really draw people in",
+        "Maybe end with a friendly question? Something like 'Anyone else feel this way?' - I've noticed posts with questions get way more comments",
+        "You could add just a touch more of your personality here - maybe a casual expression you use with friends or a little humor if that feels right for you"
       ]
     };
   }
