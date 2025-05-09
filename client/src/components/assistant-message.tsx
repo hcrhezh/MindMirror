@@ -59,7 +59,7 @@ export default function AssistantMessage({ message, emotions }: AssistantMessage
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <p className="text-sm font-medium text-primary-200 mb-1">Sanasa</p>
+        <p className="text-sm font-medium text-primary-200 mb-1">Dilshani</p>
         <p className="text-gray-300">
           {displayedMessage}
           {isTyping && <span className="typing-indicator">•••</span>}

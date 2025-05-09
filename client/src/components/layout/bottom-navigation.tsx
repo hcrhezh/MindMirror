@@ -53,12 +53,12 @@ export default function BottomNavigation() {
                 <span className="material-icons text-xl">emoji_emotions</span>
               </div>
             </div>
-            <h2 className="text-xl font-medium">Sanasa / CalmMind</h2>
+            <h2 className="text-xl font-medium">Dilshani / CalmMind</h2>
           </div>
           
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <AssistantMessage message={
-              "Hey there! I'm Sanasa, your friend on this journey. How are you feeling today? I'm here to chat about whatever's on your mind."
+              "Hey there! I'm Dilshani, your friend on this journey. How are you feeling today? I'm here to chat about whatever's on your mind."
             } />
             
             {assistantResponse && (
