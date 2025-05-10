@@ -14,13 +14,7 @@
   "devDependencies": {
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
-<<<<<<< HEAD
     "typescript": "^5.4.0",
     "vite": "^6.3.5"
-=======
-    "vite": "^6.3.5",
-    "typescript": "^5.4.0"
->>>>>>> e83f7ee (Fix path alias and update Vite config)
   }
 }
-
