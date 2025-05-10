@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // Define aliases for simplifying imports
-      "@": path.resolve(__dirname, "client/src"),  // Alias for src folder
+      "@": path.resolve(__dirname, "./client/src"),  // Alias for src folder
       "@shared": path.resolve(__dirname, "shared"),  // Alias for shared folder
       "@assets": path.resolve(__dirname, "attached_assets"),  // Alias for assets folder
     },
