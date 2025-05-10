@@ -28,7 +28,7 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
     rollupOptions: {
-      external: ['react-dom/client'],  // Externalizing react-dom/client
+      external: ['react-dom/client', '@tanstack/react-query'],  // Externalizing react-dom/client and @tanstack/react-query
     },
-  },
+  }, 
 });
