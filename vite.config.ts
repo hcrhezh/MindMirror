@@ -16,7 +16,8 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
-      external: ['@tanstack/react-query'],
+      // Optionally externalize packages like @tanstack/react-query if required.
+      external: ['@tanstack/react-query'], // Remove if you don't want this.
     },
   },
 });
