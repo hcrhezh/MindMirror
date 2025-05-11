@@ -4,11 +4,13 @@ import { useLanguage } from '@/lib/languages';
 import { MoodHistoryEntry, Mood, MoodAnalysis } from '@/types';
 import { apiRequest } from '@/lib/queryClient';
 import { getMoodHistory, saveMoodEntry, saveJournalEntry } from '@/lib/storage';
+import generateSampleMoodHistory from '@/lib/sample-data';
 import NavigationBar from '@/components/layout/navigation-bar';
 import TabNavigation from '@/components/layout/tab-navigation';
 import BottomNavigation from '@/components/layout/bottom-navigation';
 import EmojiMoodSelector from '@/components/ui/emoji-mood-selector';
 import MoodChart from '@/components/ui/mood-chart';
+import MoodAnalytics from '@/components/ui/mood-analytics';
 import AssistantMessage from '@/components/assistant-message';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -28,7 +30,21 @@ export default function MoodPage() {
   // Get mood history from storage
   useEffect(() => {
     const history = getMoodHistory();
-    setMoodHistory(history);
+    
+    // If there's no history or very limited data, use sample data for better visualization
+    if (history.length < 5) {
+      // Use actual data + sample data
+      const sampleHistory = generateSampleMoodHistory(60);
+      
+      // Only use samples for dates we don't have real data for
+      const existingDates = new Set(history.map(entry => entry.date));
+      const filteredSamples = sampleHistory.filter(sample => !existingDates.has(sample.date));
+      
+      // Combine real data with sample data
+      setMoodHistory([...history, ...filteredSamples]);
+    } else {
+      setMoodHistory(history);
+    }
   }, []);
   
   // Analyze mood mutation
@@ -79,7 +95,8 @@ export default function MoodPage() {
         date: format(new Date(), 'yyyy-MM-dd'),
         mood: data.mood,
         score: data.score,
-        journalEntry: journalEntry
+        journalEntry: journalEntry,
+        emotions: data.emotions
       };
       
       saveMoodEntry(entry);
@@ -230,7 +247,12 @@ export default function MoodPage() {
           )}
           
           {/* Mood History */}
-          <MoodChart moodHistory={moodHistory} />
+          <div className="mb-6">
+            <MoodChart moodHistory={moodHistory} />
+          </div>
+
+          {/* Advanced Mood Analytics */}
+          <MoodAnalytics moodHistory={moodHistory} />
         </div>
       </div>
       

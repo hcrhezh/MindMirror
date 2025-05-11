@@ -20,6 +20,7 @@ export type MoodHistoryEntry = {
   mood: Mood;
   score: number;
   journalEntry?: string;
+  emotions?: Emotion[];
 };
 
 export type Emotion = {
