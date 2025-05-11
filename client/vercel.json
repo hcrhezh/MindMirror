@@ -1,3 +1,9 @@
 {
-  "outputDirectory": "dist"
+  "projects": {
+    "client": {
+      "source": "client/**/*",
+      "outputDirectory": "client/dist",
+      "framework": "vite"
+    }
+  }
 }
