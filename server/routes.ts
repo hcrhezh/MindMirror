@@ -423,6 +423,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Health check endpoint for Railway
+  app.get('/', async (req, res) => {
+    res.json({ status: 'ok', message: 'MindMirror API is running' });
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

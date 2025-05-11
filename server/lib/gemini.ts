@@ -20,9 +20,28 @@ if (apiKey) {
 }
 
 // Initialize the Google Generative AI SDK
-const genAI = new GoogleGenerativeAI(apiKey || "");
-// Use gemini-1.5-pro model which is the latest model available
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+let genAI: GoogleGenerativeAI;
+let model: any;
+
+try {
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY not provided");
+  }
+  
+  genAI = new GoogleGenerativeAI(apiKey);
+  // Use gemini-1.5-pro model which is the latest model available
+  model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+} catch (error) {
+  console.error("Failed to initialize Gemini API:", error);
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.error("Critical error in production mode - API initialization failed");
+  } else {
+    // In development, we'll create empty placeholders so the app can at least start
+    genAI = new GoogleGenerativeAI("dummy-key-for-development");
+    model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  }
+}
 
 // Test the API key at startup
 async function testApiKey() {

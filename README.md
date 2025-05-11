@@ -12,40 +12,41 @@ A comprehensive AI-powered mental health companion app providing personalized em
 - Multilingual support (English, Sinhala, Tamil, Hindi, Spanish, Arabic)
 - Rich analytics with mood trends and emotion distribution
 
-## Deployment to Netlify
+## Deployment to Railway
 
-Follow these steps to deploy MindMirror to Netlify:
+Follow these steps to deploy MindMirror to Railway:
 
 1. **Fork or Clone the Repository**
    - Make sure you have a copy of the repository in your GitHub account
 
-2. **Sign up for Netlify**
-   - Go to [Netlify](https://www.netlify.com/) and sign up/login
-   - Click "New site from Git"
+2. **Sign up for Railway**
+   - Go to [Railway.app](https://railway.app/) and sign up/login with GitHub
+   - Click "New Project" → "Deploy from GitHub"
    - Connect your GitHub account and select this repository
 
-3. **Configure Build Settings**
-   - Build command: `npm run build`
-   - Publish directory: `dist`
+3. **Add a PostgreSQL Database**
+   - In your project dashboard, click "New" → "Database" → "PostgreSQL"
+   - This will provision a PostgreSQL database for your application
 
 4. **Set Environment Variables**
-   - In Netlify dashboard, go to Site settings → Environment variables
+   - Go to the "Variables" tab in your Railway project
    - Add the following variables:
-     - `GEMINI_API_KEY`: Your Google Gemini API key
      - `NODE_ENV`: `production`
+     - `GEMINI_API_KEY`: Your Google Gemini API key (get it from https://ai.google.dev/)
+     - `PORT`: Leave this blank as Railway will provide it automatically
+   - Railway will automatically provide the following database variables:
+     - `DATABASE_URL`: Full PostgreSQL connection string
+     - `PGHOST`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`, `PGPORT`: Individual database connection details
 
 5. **Deploy**
-   - Click "Deploy site"
-   - Wait for the build to complete
-   - Your site will be available at a Netlify subdomain
+   - Railway will automatically build and deploy your application
+   - Monitor the process in the "Deployments" tab
+   - Once complete, navigate to the provided domain URL to access your app
 
-## Database Integration
-
-For full functionality including user accounts and data persistence:
-
-1. Create a PostgreSQL database using a service like Neon, Supabase, or Railway
-2. Add the `DATABASE_URL` environment variable to your Netlify deployment
-3. The application will automatically connect to your database
+6. **Run Database Migrations**
+   - After the initial deployment, go to the "Settings" tab of your web service
+   - Add a one-time command to run migrations: `npm run db:push`
+   - This will create all the necessary database tables
 
 ## Local Development
 
@@ -70,4 +71,4 @@ For full functionality including user accounts and data persistence:
 - Express.js
 - Google Gemini AI API
 - PostgreSQL with Drizzle ORM
-- Netlify Serverless Functions
+- Railway for hosting and database
